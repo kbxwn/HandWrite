@@ -10,14 +10,16 @@ import android.graphics.Color;
 import android.king.signature.GridPaintActivity;
 import android.king.signature.PaintActivity;
 import android.king.signature.config.PenConfig;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.PermissionChecker;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.PermissionChecker;
 
 /**
  * 使用示例
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, GridPaintActivity.class);
         intent.putExtra("background", Color.WHITE);
         intent.putExtra("crop", true);
-        intent.putExtra("fontSize", 50);  //手写字体大小
+        intent.putExtra("fontSize", 100);  //手写字体大小
         intent.putExtra("format", PenConfig.FORMAT_PNG);
         intent.putExtra("lineLength", 10);   //每行显示字数（超出屏幕支持横向滚动）
         startActivityForResult(intent, 100);
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
             String savePath = data.getStringExtra(PenConfig.SAVE_PATH);
             Log.i("king", savePath);
@@ -106,9 +108,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100) {
-            if (permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE) && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //用户同意使用write
                 isPermissionOk = true;
             } else {
